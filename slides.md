@@ -137,176 +137,6 @@ Note:
 
 ---
 
-<!-- .slide: class="deck-slide" -->
-
-## Guardrails: Bringing Determinism to Probability
-
-<div class="deck-concept-grid">
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">🛡️</span><h3>Input Validation</h3></div>
-    <p class="card-sub">Pre-Processing</p>
-    <ul>
-      <li>Filter toxic or unsafe prompts before LLM call</li>
-      <li>Detect prompt injections & jailbreak attempts</li>
-      <li>Enforce schema & domain boundaries</li>
-    </ul>
-  </div>
-
-  <div class="deck-card highlight-card">
-    <div class="card-header"><span class="card-icon">⚙️</span><h3>Structured Output</h3></div>
-    <p class="card-sub">In-Flight Control</p>
-    <ul>
-      <li>Constrain decoding logits to force valid JSON/YAML</li>
-      <li>JSON Schema enforcement at token level</li>
-      <li>Guarantees machine-readable responses</li>
-    </ul>
-  </div>
-
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">🔍</span><h3>Output Verification</h3></div>
-    <p class="card-sub">Post-Processing</p>
-    <ul>
-      <li>Fact-check against grounded sources (RAG)</li>
-      <li>Validate business logic with traditional code</li>
-      <li>Fallback or retry loops on validation failure</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Guardrails bridge the gap between statistical LLMs and enterprise reliability
-- Logit bias and constrained decoding guarantees 100% JSON valid syntax
-- Python/Pydantic validation layer after LLM output
-
-
----
-
-<!-- .slide: class="deck-slide" -->
-
-## Continuous Model Evaluations
-
-<div class="deck-concept-grid">
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">🔄</span><h3>Model Evolution</h3></div>
-    <p class="card-sub">Provider Updates</p>
-    <ul>
-      <li>Providers continuously update underlying weights and safety filters</li>
-      <li>Same prompt can produce different answers over time</li>
-      <li>Requires explicit snapshot pinning in production (e.g. gpt-4o-2024-08-06)</li>
-    </ul>
-  </div>
-
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">⚠️</span><h3>Model Drift</h3></div>
-    <p class="card-sub">Silent Failures</p>
-    <ul>
-      <li>System prompt changes silently alter reasoning & output format</li>
-      <li>Format adherence can break across subtle API version bumps</li>
-      <li>Hard to catch without automated assertion suites</li>
-    </ul>
-  </div>
-
-  <div class="deck-card highlight-card">
-    <div class="card-header"><span class="card-icon">📊</span><h3>Regression Testing</h3></div>
-    <p class="card-sub">Continuous Eval</p>
-    <ul>
-      <li>Automated benchmarks run on every model version update</li>
-      <li>Assertions on structured output format, tone, and accuracy</li>
-      <li>Prevents regressions before shipping code to production</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Non-deterministic software requires continuous regression testing
-- Discuss provider model deprecation schedules (e.g. gpt-4o updates)
-- How to lock model snapshots (e.g. gpt-4o-2024-08-06)
----
-
-<!-- .slide: class="deck-slide" -->
-
-## Training & Fitting
-
-<div class="deck-concept-grid">
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">📉</span><h3>Underfitting</h3></div>
-    <p class="card-sub">Too Simple</p>
-    <ul>
-      <li>Model fails to capture complex underlying patterns</li>
-      <li>High error on both training and real data</li>
-      <li>Result: Vague, generic, or inaccurate answers</li>
-    </ul>
-  </div>
-
-  <div class="deck-card highlight-card">
-    <div class="card-header"><span class="card-icon">🎯</span><h3>Optimal Fit</h3></div>
-    <p class="card-sub">Generalization</p>
-    <ul>
-      <li>Captures true signal without memorizing noise</li>
-      <li>Generalizes smoothly to unseen real-world prompts</li>
-      <li>Balances accuracy, reasoning, and adaptability</li>
-    </ul>
-  </div>
-
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">📈</span><h3>Overfitting</h3></div>
-    <p class="card-sub">Memorized Noise</p>
-    <ul>
-      <li>Memorizes training data verbatim instead of learning concepts</li>
-      <li>Performs perfectly on training set, fails on new prompts</li>
-      <li>Common risk in small domain fine-tuning</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Explain pre-training vs. fine-tuning
-- Why fine-tuning on small datasets often leads to overfitting
-- Why RAG is often preferred over fine-tuning for factual knowledge
-
----
-
-<!-- .slide: class="deck-slide" -->
-
-## Automated Evaluations & Dataset Design
-
-<div class="compare-grid">
-  <div class="compare-card">
-    <div class="card-header">
-      <span class="card-icon">🔁</span>
-      <h3>Cross-Validation</h3>
-    </div>
-    <p class="card-sub">Algorithm Tuning</p>
-    <ul>
-      <li>Splits data into multiple folds for iterative training</li>
-      <li>Used to tune hyperparameters & model choice</li>
-      <li>Measures statistical stability across data splits</li>
-    </ul>
-  </div>
-
-  <div class="compare-vs">VS</div>
-
-  <div class="compare-card highlight-card">
-    <div class="card-header">
-      <span class="card-icon">🔒</span>
-      <h3>Golden Test Corpora</h3>
-    </div>
-    <p class="card-sub">LLM Production Benchmark</p>
-    <ul>
-      <li>Curated, held-out set of real-world representative prompts</li>
-      <li>Never exposed to model prompts or developer tuning</li>
-      <li>Evaluated via LLM-as-a-Judge or semantic similarity metrics</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Why classical k-fold cross-validation differs from LLM eval pipelines
-- Creating a golden dataset (100-500 edge-case prompts)
-- Using LLM-as-a-Judge (e.g. GPT-4 evaluating smaller model outputs)
-
----
-
 <!-- .slide: class="deck-slide topic-title-only" -->
 
 ## AI Hype vs. Actual Capabilities & Limits
@@ -464,19 +294,98 @@ Note:
 
 <!-- .slide: class="deck-slide topic-title-only" -->
 
-## Different Model Types & Why They Matter
+## Data Sovereignty & Digital Dependency
 
 <div class="llm-diagram">
-  <div class="llm-node">Frontier LLMs</div>
+  <div class="llm-node">IP Leakage</div>
   <div class="llm-connector"></div>
-  <div class="llm-node llm-node-core">SLMs & Distillation</div>
+  <div class="llm-node llm-node-core">Vendor Lock-In</div>
   <div class="llm-connector"></div>
-  <div class="llm-node">Local & Hybrid</div>
+  <div class="llm-node">Sovereign Control</div>
 </div>
 
 Note:
-- Section Intro: Why "one huge model for everything" is inefficient and costly
-- Strategic choice of model size, latency, cost, and privacy boundaries
+- Section Intro: Who owns your data, where does it flow, and how vulnerable is your company to cloud provider lock-in?
+---
+
+<!-- .slide: class="deck-slide" -->
+
+## Data Sovereignty & Digital Dependency
+
+<div class="compare-grid">
+  <div class="compare-card">
+    <div class="card-header">
+      <span class="card-icon">🔐</span>
+      <h3>Data Sovereignty</h3>
+    </div>
+    <p class="card-sub">The Vulnerability</p>
+    <ul>
+      <li>Sending client IP, building schematics & NDA data to US cloud APIs</li>
+      <li>Risk of training data contamination or accidental public leakage</li>
+      <li>Regulatory compliance breaches (GDPR, EU AI Act, strict client NDAs)</li>
+    </ul>
+  </div>
+
+  <div class="compare-vs">&</div>
+
+  <div class="compare-card highlight-card">
+    <div class="card-header">
+      <span class="card-icon">🔗</span>
+      <h3>Digital Dependency</h3>
+    </div>
+    <p class="card-sub">The Trap & Remediation</p>
+    <ul>
+      <li>Over-reliance on closed API ecosystems (OpenAI/Anthropic price & policy changes)</li>
+      <li><strong>Actionable steps:</strong> Zero-retention enterprise agreements, open-weights (Llama/Mistral) fallback, and local models for sensitive IP</li>
+    </ul>
+  </div>
+</div>
+
+Note:
+- Differentiate public ChatGPT (trains on data) vs Enterprise API (zero-retention guarantees)
+- Explain digital dependency: what happens if an API doubles its price or changes safety filters overnight?
+- Solution: Multi-model strategy, local open-source models, and explicit API contracts
+
+---
+
+<!-- .slide: class="deck-slide" -->
+
+## Privacy, Speed & Hybrid Architectures
+
+<div class="compare-grid">
+  <div class="compare-card">
+    <div class="card-header">
+      <span class="card-icon">🔒</span>
+      <h3>Local Models</h3>
+    </div>
+    <p class="card-sub">Data Sovereignty & On-Prem</p>
+    <ul>
+      <li>Run on local workstation GPUs or private cloud infrastructure (e.g. Ollama)</li>
+      <li>Zero data leakage: confidential IP and client data never leave the perimeter</li>
+      <li>Zero API costs & works offline, but bounded by local hardware limits</li>
+    </ul>
+  </div>
+
+  <div class="compare-vs">VS</div>
+
+  <div class="compare-card highlight-card">
+    <div class="card-header">
+      <span class="card-icon">🔀</span>
+      <h3>Hybrid Orchestration</h3>
+    </div>
+    <p class="card-sub">Intelligent Routing</p>
+    <ul>
+      <li>Local SLMs perform PII redaction, intent routing & simple processing</li>
+      <li>Escalates complex, non-sensitive tasks to Cloud Frontier models</li>
+      <li>Balances data security, latency, and cloud API spend automatically</li>
+    </ul>
+  </div>
+</div>
+
+Note:
+- Why local models (Llama 3, Mistral) are crucial for sensitive climate/engineering calculations
+- Hybrid routers allow companies to get the speed/privacy of local + power of cloud
+- PII scrubbing locally before sending data to cloud APIs
 
 ---
 
@@ -521,46 +430,6 @@ Note:
 - Distillation allows smaller models to mime frontier reasoning for specific prompts
 - Flash models replace heavy models for 90% of routine corporate API tasks
 
----
-
-<!-- .slide: class="deck-slide" -->
-
-## Privacy, Speed & Hybrid Architectures
-
-<div class="compare-grid">
-  <div class="compare-card">
-    <div class="card-header">
-      <span class="card-icon">🔒</span>
-      <h3>Local Models</h3>
-    </div>
-    <p class="card-sub">Data Sovereignty & On-Prem</p>
-    <ul>
-      <li>Run on local workstation GPUs or private cloud infrastructure (e.g. Ollama)</li>
-      <li>Zero data leakage: confidential IP and client data never leave the perimeter</li>
-      <li>Zero API costs & works offline, but bounded by local hardware limits</li>
-    </ul>
-  </div>
-
-  <div class="compare-vs">VS</div>
-
-  <div class="compare-card highlight-card">
-    <div class="card-header">
-      <span class="card-icon">🔀</span>
-      <h3>Hybrid Orchestration</h3>
-    </div>
-    <p class="card-sub">Intelligent Routing</p>
-    <ul>
-      <li>Local SLMs perform PII redaction, intent routing & simple processing</li>
-      <li>Escalates complex, non-sensitive tasks to Cloud Frontier models</li>
-      <li>Balances data security, latency, and cloud API spend automatically</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Why local models (Llama 3, Mistral) are crucial for sensitive climate/engineering calculations
-- Hybrid routers allow companies to get the speed/privacy of local + power of cloud
-- PII scrubbing locally before sending data to cloud APIs
 
 ---
 
@@ -625,50 +494,6 @@ Note:
 
 ---
 
-<!-- .slide: class="deck-slide" -->
-
-## Un-neglectable Paradigms: New World, New Rules
-
-<div class="deck-concept-grid">
-  <div class="deck-card highlight-card">
-    <div class="card-header"><span class="card-icon">🔄</span><h3>Creation ➔ Curation</h3></div>
-    <p class="card-sub">Shift in Working Mode</p>
-    <ul>
-      <li>Old rule: Value comes from manual document or code production</li>
-      <li>New rule: Value comes from asking sharp questions and rigorous verification</li>
-      <li>Where to look: Design reports, simulation scripts & pitch proposals</li>
-    </ul>
-  </div>
-
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">💬</span><h3>Chat ➔ Embedded System</h3></div>
-    <p class="card-sub">Interface Evolution</p>
-    <ul>
-      <li>Old rule: Opening a chatbot window to type standalone prompts</li>
-      <li>New rule: AI baked directly into IDEs, CAD/BIM tools, and email pipelines</li>
-      <li>Where to look: VS Code Copilot, CAD automation scripts & automated inbox triage</li>
-    </ul>
-  </div>
-
-  <div class="deck-card">
-    <div class="card-header"><span class="card-icon">📜</span><h3>Static Knowledge ➔ Live Context</h3></div>
-    <p class="card-sub">Information Retrieval</p>
-    <ul>
-      <li>Old rule: Relying on remembered model facts or static PDF search</li>
-      <li>New rule: Connecting models to live APIs, tools (MCP) & dynamic RAG databases</li>
-      <li>Where to look: Real-time climate data feeds, building codes & internal wikis</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Give concrete examples of changed contexts:
-  1. Engineering / Climate consulting: AI drafts simulation setup scripts, engineer verifies inputs/physics.
-  2. Software / Tooling: Moving away from standalone ChatGPT tabs into Copilot / IDE inline edits.
-  3. Knowledge Management: Moving from static file folders to MCP-connected search tools.
-
----
-
 <!-- .slide: class="deck-slide topic-title-only" -->
 
 ## Risks & Tradeoffs of Unguided AI
@@ -727,63 +552,6 @@ Note:
 - Highlight the danger of "smooth prose" deceiving non-experts or tired reviewers
 - Discuss the risk of junior engineers relying on AI before understanding underlying physics
 - Establish clear rules: AI never signs off on client deliverables or engineering math without verification
-
----
-
-<!-- .slide: class="deck-slide topic-title-only" -->
-
-## Data Sovereignty & Digital Dependency
-
-<div class="llm-diagram">
-  <div class="llm-node">IP Leakage</div>
-  <div class="llm-connector"></div>
-  <div class="llm-node llm-node-core">Vendor Lock-In</div>
-  <div class="llm-connector"></div>
-  <div class="llm-node">Sovereign Control</div>
-</div>
-
-Note:
-- Section Intro: Who owns your data, where does it flow, and how vulnerable is your company to cloud provider lock-in?
-
----
-
-<!-- .slide: class="deck-slide" -->
-
-## Data Sovereignty & Digital Dependency
-
-<div class="compare-grid">
-  <div class="compare-card">
-    <div class="card-header">
-      <span class="card-icon">🔐</span>
-      <h3>Data Sovereignty</h3>
-    </div>
-    <p class="card-sub">The Vulnerability</p>
-    <ul>
-      <li>Sending client IP, building schematics & NDA data to US cloud APIs</li>
-      <li>Risk of training data contamination or accidental public leakage</li>
-      <li>Regulatory compliance breaches (GDPR, EU AI Act, strict client NDAs)</li>
-    </ul>
-  </div>
-
-  <div class="compare-vs">&</div>
-
-  <div class="compare-card highlight-card">
-    <div class="card-header">
-      <span class="card-icon">🔗</span>
-      <h3>Digital Dependency</h3>
-    </div>
-    <p class="card-sub">The Trap & Remediation</p>
-    <ul>
-      <li>Over-reliance on closed API ecosystems (OpenAI/Anthropic price & policy changes)</li>
-      <li><strong>Actionable steps:</strong> Zero-retention enterprise agreements, open-weights (Llama/Mistral) fallback, and local models for sensitive IP</li>
-    </ul>
-  </div>
-</div>
-
-Note:
-- Differentiate public ChatGPT (trains on data) vs Enterprise API (zero-retention guarantees)
-- Explain digital dependency: what happens if an API doubles its price or changes safety filters overnight?
-- Solution: Multi-model strategy, local open-source models, and explicit API contracts
 
 ---
 
