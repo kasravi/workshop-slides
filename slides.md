@@ -1,24 +1,3 @@
-<!-- .slide: class="topic-title-only" -->
-
-## What are LLMs and how do they work at a high level?
-
-<div class="llm-diagram" aria-hidden="true">
-	<div class="llm-node llm-node-soft">Input tokens</div>
-	<div class="llm-connector"></div>
-	<div class="llm-node llm-node-core">Model</div>
-	<div class="llm-connector"></div>
-	<div class="llm-node llm-node-soft">Output tokens</div>
-</div>
-
-Note:
-- Factual vs. statistical systems
-- Lowest level of abstraction: get tokens, output tokens
-- Training and fitting: what is overfit, underfit
-- Evaluations: underlying models change
-- Guardrails: bring determinism into a probabilistic flow
-- Automated evaluations and the difference between cross-validation and test corpora
-
----
 
 <!-- .slide: class="deck-slide" -->
 
@@ -48,6 +27,28 @@ Note:
 Note:
 - Introduction to speaker background and role at Danfoss
 - Transition into the core workshop topics
+
+---
+
+<!-- .slide: class="topic-title-only" -->
+
+## What are LLMs and how do they work at a high level?
+
+<div class="llm-diagram" aria-hidden="true">
+	<div class="llm-node llm-node-soft">Input tokens</div>
+	<div class="llm-connector"></div>
+	<div class="llm-node llm-node-core">Model</div>
+	<div class="llm-connector"></div>
+	<div class="llm-node llm-node-soft">Output tokens</div>
+</div>
+
+Note:
+- Factual vs. statistical systems
+- Lowest level of abstraction: get tokens, output tokens
+- Training and fitting: what is overfit, underfit
+- Evaluations: underlying models change
+- Guardrails: bring determinism into a probabilistic flow
+- Automated evaluations and the difference between cross-validation and test corpora
 
 ---
 
