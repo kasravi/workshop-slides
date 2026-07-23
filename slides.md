@@ -20,6 +20,37 @@ Note:
 
 ---
 
+<!-- .slide: class="deck-slide" -->
+
+## About the Speaker
+
+<div class="deck-concept-grid">
+  <div class="deck-card highlight-card" style="flex: 0 0 260px; text-align: center; align-items: center; justify-content: center;">
+    <img src="me.jfif" alt="Morteza Kasravi" style="width: 130px; height: 140px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(125, 249, 255, 0.5); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); margin-bottom: 12px;" />
+    <h3 style="font-size: 1.3rem !important; margin: 0 0 4px 0 !important;">Morteza Kasravi</h3>
+    <p class="card-sub" style="margin-bottom: 12px !important;">Danfoss</p>
+    
+  </div>
+
+  <div class="deck-card" style="flex: 1 1 0;">
+    <div class="card-header">
+      <h3>Tech Lead & Ontologist</h3>
+    </div>
+    <p class="card-sub">Danfoss • AI Architecture & Knowledge Engineering</p>
+    <ul>
+      <li><strong>Role at Danfoss:</strong> Tech Lead & Ontologist, shaping domain knowledge graphs, data models & AI architecture.</li>
+      <li><strong>Core Focus:</strong> Practical LLMs, System Prompting, RAG (Retrieval-Augmented Generation) & Knowledge Representation.</li>
+      <li><strong>Workshop Goal:</strong> Demystifying LLMs and building clear mental models for engineering & technical teams.</li>
+    </ul>
+  </div>
+</div>
+
+Note:
+- Introduction to speaker background and role at Danfoss
+- Transition into the core workshop topics
+
+---
+
 <!-- .slide: class="compare-slide" -->
 
 ## Factual vs. Statistical Systems
