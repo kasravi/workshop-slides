@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI in Transsolar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section class="cover-slide" data-background="#0b0f14">
+          <div class="cover-copy">
+            <h1>AI in Transsolar</h1>
+
+            <p>Practical concepts, limits, and a live workshop for building better mental models of AI.</p>
+          </div>
+        </section>
+
+        <section data-markdown="slides.md"
+                 data-separator="^---$"
+                 data-separator-vertical="^--$"
+                 data-separator-notes="^Note:"
+                 data-charset="utf-8"></section>
+      </div>
+    </div>
+
+    <template id="cover-graph-template">
+      <div class="graph-canvas" aria-hidden="true">
+        <svg class="graph-svg" viewBox="0 0 1600 900" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+              <stop offset="45%" stop-color="#7df9ff" stop-opacity="0.25" />
+              <stop offset="55%" stop-color="#9aff6a" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+            </linearGradient>
+            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="blur" />
+              <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
+              <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="nodeGlow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <g class="graph-edges">
+            <path id="edge-a" d="M160 740 C 280 640, 360 600, 500 540 S 820 420, 980 350 S 1260 220, 1450 190" />
+            <path id="edge-b" d="M220 190 C 390 250, 470 320, 580 420 S 860 640, 1060 690 S 1300 750, 1480 700" />
+            <path id="edge-c" d="M120 500 C 300 470, 420 430, 560 400 S 820 330, 980 290 S 1250 250, 1510 300" />
+            <path id="edge-d" d="M180 300 C 320 280, 420 320, 560 380 S 850 520, 1040 560 S 1300 520, 1460 460" />
+          </g>
+
+          <g class="graph-flow" filter="url(#softGlow)">
+            <circle class="flow-segment flow-a" cx="0" cy="0" r="5" />
+            <circle class="flow-segment flow-b" cx="0" cy="0" r="5" />
+            <circle class="flow-segment flow-c" cx="0" cy="0" r="5" />
+            <circle class="flow-segment flow-d" cx="0" cy="0" r="5" />
+          </g>
+
+          <g class="graph-nodes" filter="url(#nodeGlow)">
+            <circle cx="160" cy="740" r="12" />
+            <circle cx="500" cy="540" r="11" />
+            <circle cx="980" cy="350" r="12" />
+            <circle cx="1450" cy="190" r="12" />
+            <circle cx="220" cy="190" r="10" />
+            <circle cx="580" cy="420" r="10" />
+            <circle cx="1060" cy="690" r="11" />
+            <circle cx="1480" cy="700" r="10" />
+            <circle cx="120" cy="500" r="11" />
+            <circle cx="680" cy="550" r="9" />
+            <circle cx="1120" cy="360" r="10" />
+            <circle cx="180" cy="300" r="10" />
+            <circle cx="300" cy="780" r="9" />
+            <circle cx="1260" cy="220" r="11" />
+            <circle cx="1540" cy="160" r="9" />
+          </g>
+        </svg>
+      </div>
+    </template>
+
+    <script type="module">
+      import Reveal from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.esm.js';
+      import Markdown from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.esm.js';
+      import Highlight from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.esm.js';
+      import Notes from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.esm.js';
+      import Search from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/search/search.esm.js';
+      import Zoom from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/zoom/zoom.esm.js';
+
+      Reveal.initialize({
+        hash: true,
+        center: true,
+        transition: 'fade',
+        backgroundTransition: 'fade',
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        plugins: [Markdown, Highlight, Notes, Search, Zoom],
+      });
+
+      Reveal.on('ready', () => {
+        const backgrounds = document.querySelector('.reveal .backgrounds');
+        const firstBackground = backgrounds?.querySelector('.slide-background');
+        const template = document.getElementById('cover-graph-template');
+
+        if (!firstBackground || !template) {
+          return;
+        }
+
+        if (!firstBackground.querySelector('.graph-canvas')) {
+          firstBackground.appendChild(template.content.cloneNode(true));
+        }
+
+        const firstCanvas = firstBackground.querySelector('.graph-canvas');
+        if (firstCanvas) {
+          firstCanvas.style.setProperty('--flow-duration', '38s');
+        }
+      });
+    </script>
+  </body>
+</html>
