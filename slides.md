@@ -583,7 +583,7 @@ Note:
     <p class="card-sub">Current Estimates</p>
     <ul>
       <li>Single query: ~0.3 - 3 Wh (10x higher energy & water cooling than Google Search)</li>
-      <li>Training a frontier model: 100s of MWh + tons of $CO_2$ equivalent</li>
+      <li>Training a frontier model: 100s of MWh + tons of CO₂ equivalent</li>
       <li>Data center grid strain: Rapidly expanding footprint in energy grids worldwide</li>
     </ul>
   </div>
